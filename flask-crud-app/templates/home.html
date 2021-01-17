@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div>
+<h1>Sign up</h1>
+    <form method="POST" action="/">
+        <label for="Username">Enter your username :</label>
+        <input type="text" name="username">
+        <br>
+        <label for="email">Enter your email :</label>
+        <input type="email" id="email" name="email">
+        <br>
+        <input type="submit" value="Sign Up">
+    </form>
+</div>
+<div>
+    {% for user in data %}
+    <h2>Username : {{ user.username }}</h2>
+    <h2>Email : {{ user.email }}</h2>
+    {% endfor %}
+</div>
+
+{% endblock %}

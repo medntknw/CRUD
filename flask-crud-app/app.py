@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 from flask import render_template
-from flask import request
+from flask import request,jsonify
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -20,21 +20,17 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
-@app.route('/')
+@app.route("/", methods=["GET", "POST"])
 def home():
     if request.form:
         user=User()
-        username=request.values.get('username')
-        email=request.values.get('email')
-        exists = User.query.filter_by(username=username).first()
-        if exists:
-            return render_template('user_exists.html')
-        else:
-            user.username=username
-            user.email=email
-            db.session.add(user)
-            db.session.commit()
-        return render_template('base.html')
+        user.username=request.form.get('username')
+        user.email=request.form.get('email')
+        db.session.add(user)
+        db.session.commit()
+    data=User.query.all()
+    return render_template("home.html",data=data)
+
 
 
 
